@@ -1,4 +1,4 @@
-package com.exercise1.domain.queries.select
+package com.exercise1.select.queries
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -14,5 +14,5 @@ interface ColorTimesRepository: JpaRepository<ColorTimes, String> {
     order by times desc
     limit 1 offset 1;
   """, nativeQuery = true)
-  fun findSecondMostCommonColorOfAbandonedVehicles(): ColorTimes
+  fun findSecondMostCommonColorOfAbandonedVehicles(): ColorTimes?
 }

@@ -1,4 +1,4 @@
-package com.exercise1.domain.queries.select
+package com.exercise1.select.queries
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -16,7 +16,7 @@ interface TypeTimesRepository: JpaRepository<TypeTimes, String> {
     group by type
     order by times desc;
   """, nativeQuery = true)
-  fun findTotalRequestsPerType(minRange: Instant, maxRange: Instant): List<TypeTimes>
+  fun findTotalRequestsPerType(minRange: Instant, maxRange: Instant): List<TypeTimes>?
 
   @Query(value = """
     select type, count(*) times
@@ -36,5 +36,5 @@ interface TypeTimesRepository: JpaRepository<TypeTimes, String> {
     maxLatitude: BigDecimal,
     maxLongitude: BigDecimal,
     day: Instant
-  ): TypeTimes
+  ): TypeTimes?
 }

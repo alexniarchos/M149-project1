@@ -1,4 +1,4 @@
-package com.exercise1.domain.queries.select
+package com.exercise1.select.queries
 
 import com.exercise1.domain.database.shared.enums.EventType
 import org.springframework.data.jpa.repository.JpaRepository
@@ -17,5 +17,5 @@ interface DateTimesRepository: JpaRepository<DateTimes, String> {
     group by date
     order by date desc;
   """, nativeQuery = true)
-  fun findTotalRequestsPerDayForType(maxRange: Instant, minRange: Instant, type: EventType): List<DateTimes>
+  fun findTotalRequestsPerDayForType(minRange: Instant, maxRange: Instant, type: String): List<DateTimes>?
 }
