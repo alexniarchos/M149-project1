@@ -1,4 +1,4 @@
-package com.exercise1.domain.queries.select
+package com.exercise1.select.queries
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -22,5 +22,5 @@ interface DateSSATimesRepository: JpaRepository<DateSSATimes, String> {
     where a.rn <= 5
     order by date, times desc;
   """, nativeQuery = true)
-  fun findTopFiveSSAPerDay(minRange: Instant, maxRange: Instant): List<DateSSATimes>
+  fun findTopFiveSSAPerDay(minRange: Instant, maxRange: Instant): List<DateSSATimes>?
 }

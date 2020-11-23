@@ -1,4 +1,4 @@
-package com.exercise1.domain.queries.select
+package com.exercise1.select.queries
 
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -7,5 +7,5 @@ import javax.persistence.Id
 data class EventIdNumberOfOccurrences(
   @Id
   val eventId: Long,
-  val numberOfOccurrences: Long
+  val number: Long
 )

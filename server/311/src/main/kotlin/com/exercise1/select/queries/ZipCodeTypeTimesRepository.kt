@@ -1,4 +1,4 @@
-package com.exercise1.domain.queries.select
+package com.exercise1.select.queries
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -18,5 +18,5 @@ interface ZipCodeTypeTimesRepository: JpaRepository<ZipCodeTypeTimes, Long> {
      ) a
     where a.rn = 1;
   """, nativeQuery = true)
-  fun findMostCommonServiceRequestPerZipCode(day: Instant): List<ZipCodeTypeTimes>
+  fun findMostCommonServiceRequestPerZipCode(day: Instant): List<ZipCodeTypeTimes>?
 }

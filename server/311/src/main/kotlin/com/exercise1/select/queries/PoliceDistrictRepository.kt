@@ -1,4 +1,4 @@
-package com.exercise1.domain.queries.select
+package com.exercise1.select.queries
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -8,7 +8,7 @@ import java.time.Instant
 @Repository
 interface PoliceDistrictRepository: JpaRepository<PoliceDistrict, Long> {
   @Query("""
-    select distinct a.pd as policeDistrict
+    select distinct a.pd as police_district
     from (
            select distinct police_district pd
            from incidents.event
@@ -27,5 +27,5 @@ interface PoliceDistrictRepository: JpaRepository<PoliceDistrict, Long> {
          ) b
     where a.pd = b.pd
   """, nativeQuery = true)
-  fun findPoliceDistrictPotHolesRodentBaiting(day: Instant): List<PoliceDistrict>
+  fun findPoliceDistrictPotHolesRodentBaiting(day: Instant): List<PoliceDistrict>?
 }
