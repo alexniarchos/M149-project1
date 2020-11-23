@@ -1,5 +1,6 @@
 package com.exercise1.select.queries
 
+import com.exercise1.domain.database.shared.Event
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -7,7 +8,7 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @Repository
-interface TypeTimesRepository: JpaRepository<TypeTimes, String> {
+interface TypeTimesRepository: JpaRepository<Event, Long> {
   @Query(value = """
     select type, count(*) as times
     from incidents.event

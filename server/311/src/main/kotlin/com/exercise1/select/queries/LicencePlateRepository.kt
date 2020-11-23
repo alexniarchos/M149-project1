@@ -1,11 +1,12 @@
 package com.exercise1.select.queries
 
+import com.exercise1.domain.database.shared.Event
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface LicencePlateRepository: JpaRepository<LicencePlate, String> {
+interface LicencePlateRepository: JpaRepository<Event, Long> {
   @Query(value = """
     select distinct licence_plate as plate, count(licence_plate) as times
     from incidents.abandoned_vehicles

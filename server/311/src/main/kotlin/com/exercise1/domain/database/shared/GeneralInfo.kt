@@ -31,9 +31,5 @@ data class GeneralInfo(
   val cencusTracts: Int?,
 
   @Column(name = "wards")
-  val wards: Int?,
-
-  @OneToOne
-  @JoinColumn(name = "event_id")
-  val event: Event? = null
+  val wards: Int?
 )

@@ -1,12 +1,13 @@
 package com.exercise1.select.queries
 
+import com.exercise1.domain.database.shared.Event
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import java.time.Instant
 
 @Repository
-interface DateSSATimesRepository: JpaRepository<DateSSATimes, String> {
+interface DateSSATimesRepository: JpaRepository<Event, Long> {
   @Query(value = """
     select *
     from (select cast(creation_date as date) date,

@@ -1,11 +1,12 @@
 package com.exercise1.select.queries
 
+import com.exercise1.domain.database.shared.Event
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ColorTimesRepository: JpaRepository<ColorTimes, String> {
+interface ColorTimesRepository: JpaRepository<Event, Long> {
   @Query(value = """
     select color, count(*) times
     from incidents.abandoned_vehicles

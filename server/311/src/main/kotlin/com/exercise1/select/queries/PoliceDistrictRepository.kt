@@ -1,12 +1,13 @@
 package com.exercise1.select.queries
 
+import com.exercise1.domain.database.shared.Event
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import java.time.Instant
 
 @Repository
-interface PoliceDistrictRepository: JpaRepository<PoliceDistrict, Long> {
+interface PoliceDistrictRepository: JpaRepository<Event, Long> {
   @Query("""
     select distinct a.pd as police_district
     from (
