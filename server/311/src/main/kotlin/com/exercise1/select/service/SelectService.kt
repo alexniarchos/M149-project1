@@ -1,6 +1,8 @@
 package com.exercise1.select.service
 
 import com.exercise1.domain.database.shared.EventRepository
+import com.exercise1.insert.api.InsertInputDto
+import com.exercise1.security.UserPrinciple
 import com.exercise1.select.api.SelectQueryEnum
 import com.exercise1.select.api.SelectInputDto
 import com.exercise1.select.queries.ColorTimesRepository
@@ -12,6 +14,11 @@ import com.exercise1.select.queries.PoliceDistrictRepository
 import com.exercise1.select.queries.TypeCompletionTimeRepository
 import com.exercise1.select.queries.TypeTimesRepository
 import com.exercise1.select.queries.ZipCodeTypeTimesRepository
+import com.exercise1.useraction.ActionData
+import com.exercise1.useraction.ActionEnum
+import com.exercise1.useraction.UserAction
+import com.exercise1.useraction.UserActionRepository
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 
 @Component
@@ -25,9 +32,11 @@ class SelectService(
   private val typeCompletionTimeRepository: TypeCompletionTimeRepository,
   private val typeTimesRepository: TypeTimesRepository,
   private val zipCodeTypeTimesRepository: ZipCodeTypeTimesRepository,
-  private val eventRepository: EventRepository
+  private val eventRepository: EventRepository,
+  private val userActionRepository: UserActionRepository
 ) {
   fun route(selectInputDto: SelectInputDto): Any? {
+    saveUserAction(selectInputDto)
     return when(selectInputDto.query) {
       SelectQueryEnum.TOTAL_REQUESTS_SPECIFIED_RANGE -> typeTimesRepository.findTotalRequestsPerType(selectInputDto.minRange!!, selectInputDto.maxRange!!)
       SelectQueryEnum.TOTAL_REQUESTS_PER_DAY_AND_TIME_RANGE -> dateTimesRepository.findTotalRequestsPerDayForType(selectInputDto.minRange!!, selectInputDto.maxRange!!, selectInputDto.type!!.name)
@@ -45,5 +54,18 @@ class SelectService(
       SelectQueryEnum.EVENTS_IN_SPECIFIED_STREET -> eventRepository.findAllByAddressContains(selectInputDto.street!!)
       SelectQueryEnum.EVENTS_IN_SPECIFIED_ZIP_CODE -> eventRepository.findAllByZipCode(selectInputDto.zipCode!!)
     }
+  }
+
+  private fun saveUserAction(selectInputDto: SelectInputDto) {
+    val userId = (SecurityContextHolder.getContext().authentication.principal as UserPrinciple).id
+    userActionRepository.save(
+      UserAction(
+        null,
+        userId,
+        ActionEnum.SELECT,
+        selectInputDto.query.name,
+        ActionData(selectData = selectInputDto)
+      )
+    )
   }
 }
