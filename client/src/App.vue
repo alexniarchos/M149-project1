@@ -9,19 +9,36 @@
 
       <v-spacer></v-spacer>
 
-      <router-link to="/login">
-        <v-btn text>
-          Login
-        </v-btn>
-      </router-link>
-      <div class="mx-2">
-        or
-      </div>
-      <router-link to="/signup">
-        <v-btn text>
-          Signup
-        </v-btn>
-      </router-link>
+      <template v-if="!$store.state.isLoggedin">
+        <router-link to="/login">
+          <v-btn text>
+            Login
+          </v-btn>
+        </router-link>
+        <div class="mx-2">
+          or
+        </div>
+        <router-link to="/signup">
+          <v-btn text>
+            Signup
+          </v-btn>
+        </router-link>
+      </template>
+      <template v-else>
+        <router-link to="/query">
+          <v-btn text>
+            Search
+          </v-btn>
+        </router-link>
+        <div class="mx-2">
+          or
+        </div>
+        <router-link to="/insert">
+          <v-btn text>
+            Insert
+          </v-btn>
+        </router-link>
+      </template>
     </v-app-bar>
 
     <v-main>
@@ -32,7 +49,10 @@
 
 <script>
   export default {
-    name: "App"
+    name: "App",
+    mounted() {
+      this.$store.commit('setLoggedin', !!localStorage.getItem('jwt'));
+    }
   };
 </script>
 

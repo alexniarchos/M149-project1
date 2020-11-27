@@ -2,6 +2,9 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="8">
+        <h1 class="title">
+          Search a query
+        </h1>
         <v-card elevation="2" class="mb-6">
           <v-card-title>
             <v-select
@@ -164,6 +167,7 @@
 <script>
 import axios from 'axios';
 import {queries} from '../assets/queries.json';
+import {eventTypes} from '../constants';
 
 const fieldNames = {
   minRange: 'Start date',
@@ -176,55 +180,8 @@ const fieldNames = {
   numberOfPremises: 'Number of premises'
 };
 
-const eventTypes = [
-  {
-    value: 'ABANDONED_VEHICLES',
-    text: 'Abandoned vehicles'
-  },
-  {
-    value: 'ALLEY_LIGHT_OUT',
-    text: 'Alley light out'
-  },
-  {
-    value: 'GARBAGE_CART',
-    text: 'Garbage cart'
-  },
-  {
-    value: 'GRAFFITI_REMOVAL',
-    text: 'Graffiti removal'
-  },
-  {
-    value: 'POTHOLE_IN_STREET',
-    text: 'Pothole in street'
-  },
-  {
-    value: 'RODENT_BAITING',
-    text: 'Rodent baiting'
-  },
-  {
-    value: 'SANITATION_VIOLATION',
-    text: 'Sanitation violation'
-  },
-  {
-    value: 'STREET_LIGHTS_ALL_OUT',
-    text: 'Street lights all out'
-  },
-  {
-    value: 'STREET_LIGHT_OUT',
-    text: 'Street light out'
-  },
-  {
-    value: 'TREE_DEBRIS',
-    text: 'Tree debris'
-  },
-  {
-    value: 'TREE_TRIM',
-    text: 'Tree trim'
-  }
-];
-
 export default {
-  name: 'Home',
+  name: 'Query',
   data: () => ({
     queries,
     eventTypes,
@@ -303,6 +260,10 @@ export default {
         )
         .then(({data}) => {
           console.log(data);
+          if (!data || !data.length) {
+            return;
+          }
+          
           this.headers = Object.keys(data[0]).reduce(
             (acc, cur) => [...acc, {text: this.formatTableField(cur), value: cur}],
             []
