@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "Signup",
   data: () => ({
@@ -64,7 +66,18 @@ export default {
       this.$refs.form.validate();
 
       if (this.isFormValid) {
-        // send Signup request
+        axios.post('http://localhost:8080/auth/signup', {
+          username: this.username,
+          password: this.password
+        }).then(res => {
+          console.log(res);
+          this.$router.push('Home');
+        }).catch(err => {
+          console.error(err);
+          this.errorMessage = 'Invalid credentials';
+        }).finally(() => {
+          this.submitting = false;
+        });
       }
     }
   }
