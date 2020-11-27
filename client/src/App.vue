@@ -25,7 +25,7 @@
         </router-link>
       </template>
       <template v-else>
-        <router-link to="/query">
+        <router-link to="/search">
           <v-btn text>
             Search
           </v-btn>

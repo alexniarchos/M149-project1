@@ -2,9 +2,6 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="8">
-        <h1 class="title">
-          Insert
-        </h1>
         <v-card elevation="2" class="mb-6">
           <v-card-title>
             Insert a new incident
@@ -13,74 +10,77 @@
             Fill the following details to submit a new incident
           </v-card-subtitle>
           <v-card-text>
-            <div
-              v-for="(fieldType, index) in fieldTypesOrdered"
-              :key="index"
-            >
-              <v-select
-                v-if="fieldTypes[fieldType] === fieldTypes.status"
-                v-model="fields[fieldType]"
-                :items="eventStatusTypes"
-                label="Select event status"
-                outlined
-              />
-
-              <v-select
-                v-if="fieldTypes[fieldType] === fieldTypes.type"
-                v-model="fields[fieldType]"
-                :items="eventTypes"
-                label="Select event type"
-                outlined
-              />
-
-              <v-select
-                v-if="fieldTypes[fieldType] === fieldTypes.treeLocation"
-                v-model="fields[fieldType]"
-                :items="treeLocationTypes"
-                label="Select tree location"
-                outlined
-              />
-
-              <v-menu
-                v-if="fieldTypes[fieldType] === fieldTypes.completionDate"
-                v-model="showCalendar"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
+            <v-row>
+              <v-col
+                v-for="(fieldType, index) in fieldTypesOrdered"
+                :key="index"
+                cols="6"
               >
-                <template v-slot:activator="{on, attrs}">
-                  <v-text-field
-                    v-model="fields[fieldType]"
-                    label="Select completion date"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  />
-                </template>
-                <v-date-picker
+                <v-select
+                  v-if="fieldTypes[fieldType] === fieldTypes.status"
                   v-model="fields[fieldType]"
-                  @input="showCalendar = false"
-                ></v-date-picker>
-              </v-menu>
+                  :items="eventStatusTypes"
+                  label="Select event status"
+                  outlined
+                />
 
-              <v-text-field
-                v-if="fieldTypes[fieldType] === 'Number'"
-                v-model="fields[fieldType]"
-                type="number"
-                :label="`Type the ${fieldType}`"
-                outlined
-              />
+                <v-select
+                  v-if="fieldTypes[fieldType] === fieldTypes.type"
+                  v-model="fields[fieldType]"
+                  :items="eventTypes"
+                  label="Select event type"
+                  outlined
+                />
 
-              <v-text-field
-                v-if="fieldTypes[fieldType] === 'String'"
-                v-model="fields[fieldType]"
-                :label="`Type the ${fieldType}`"
-                outlined
-              />
-            </div>
+                <v-select
+                  v-if="fieldTypes[fieldType] === fieldTypes.treeLocation"
+                  v-model="fields[fieldType]"
+                  :items="treeLocationTypes"
+                  label="Select tree location"
+                  outlined
+                />
+
+                <v-menu
+                  v-if="fieldTypes[fieldType] === fieldTypes.completionDate"
+                  v-model="showCalendar"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{on, attrs}">
+                    <v-text-field
+                      v-model="fields[fieldType]"
+                      label="Select completion date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    />
+                  </template>
+                  <v-date-picker
+                    v-model="fields[fieldType]"
+                    @input="showCalendar = false"
+                  ></v-date-picker>
+                </v-menu>
+
+                <v-text-field
+                  v-if="fieldTypes[fieldType] === 'Number'"
+                  v-model="fields[fieldType]"
+                  type="number"
+                  :label="`Type the ${fieldType}`"
+                  outlined
+                />
+
+                <v-text-field
+                  v-if="fieldTypes[fieldType] === 'String'"
+                  v-model="fields[fieldType]"
+                  :label="`Type the ${fieldType}`"
+                  outlined
+                />
+              </v-col>
+            </v-row>
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -144,6 +144,7 @@ export default {
         .catch(err => {
           if (err.response && err.response.status === 401) {
             localStorage.removeItem('jwt');
+            this.$store.commit('setLoggedin', false);
             this.$router.push('Login');
           }
         })

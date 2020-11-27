@@ -86,6 +86,11 @@ export default {
         });
       }
     }
+  },
+  mounted() {
+    if (localStorage.getItem('jwt')) {
+      this.$router.push('search');
+    }
   }
 };
 </script>

@@ -105,36 +105,47 @@
 
               <v-text-field
                 v-if="field === 'minLatitude'"
+                v-model="minLatitude"
+                type="number"
                 label="Type the min latitude"
                 outlined
               ></v-text-field>
 
               <v-text-field
                 v-if="field === 'maxLatitude'"
+                v-model="maxLatitude"
+                type="number"
                 label="Type the max latitude"
                 outlined
               ></v-text-field>
 
               <v-text-field
                 v-if="field === 'minLongitude'"
+                v-model="minLongitude"
+                type="number"
                 label="Type the min longitude"
                 outlined
               ></v-text-field>
 
               <v-text-field
                 v-if="field === 'maxLongitude'"
+                v-model="maxLongitude"
+                type="number"
                 label="Type the max longitude"
                 outlined
               ></v-text-field>
 
               <v-text-field
                 v-if="field === 'numberOfPremises'"
+                v-model="numberOfPremises"
+                type="number"
                 label="Type the number of premises"
                 outlined
               ></v-text-field>
 
               <v-text-field
                 v-if="field === 'zipCode'"
+                v-model="zipCode"
                 type="number"
                 label="Type the zipcode"
                 outlined
@@ -142,6 +153,7 @@
 
               <v-text-field
                 v-if="field === 'street'"
+                v-model="street"
                 label="Type the street address"
                 outlined
               ></v-text-field>
@@ -181,7 +193,7 @@ const fieldNames = {
 };
 
 export default {
-  name: 'Query',
+  name: 'Search',
   data: () => ({
     queries,
     eventTypes,

@@ -27,7 +27,7 @@
     {
       "id": "MOST_COMMON_REQUEST_IN_SPECIFIED_GPS_COORDINATES",
       "name": "Query 5",
-      "desc": "Find the most common service request in a specified bounding box (as designated by GPScoordinates) for a specific day",
+      "desc": "Find the most common service request in a specified bounding box (as designated by GPS coordinates) for a specific day",
       "requiredFields": ["minLatitude", "minLongitude", "maxLatitude", "maxLongitude", "day"]
     },
     {
@@ -72,13 +72,13 @@
     },
     {
       "id": "EVENTS_IN_SPECIFIED_STREET",
-      "name": "street",
+      "name": "Street",
       "desc": "",
       "requiredFields": ["street"]
     },
     {
       "id": "EVENTS_IN_SPECIFIED_ZIP_CODE",
-      "name": "zipcode",
+      "name": "Zipcode",
       "desc": "",
       "requiredFields": ["zipCode"]
     }
