@@ -38,6 +38,9 @@
             Insert
           </v-btn>
         </router-link>
+        <v-btn dark class="ml-6" @click="onLogout()">
+          Logout
+        </v-btn>
       </template>
     </v-app-bar>
 
@@ -50,6 +53,13 @@
 <script>
   export default {
     name: "App",
+    methods: {
+      onLogout() {
+        localStorage.removeItem('jwt');
+        this.$store.commit('setLoggedin', false);
+        this.$router.push('Login');
+      }
+    },
     mounted() {
       this.$store.commit('setLoggedin', !!localStorage.getItem('jwt'));
     }
