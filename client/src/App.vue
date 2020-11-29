@@ -57,7 +57,7 @@
       onLogout() {
         localStorage.removeItem('jwt');
         this.$store.commit('setLoggedin', false);
-        this.$router.push('Login');
+        this.$router.push('login');
       }
     },
     mounted() {
