@@ -28,6 +28,8 @@
             @click:append="showPassword = !showPassword"
           ></v-text-field>
 
+          <div v-if="errorMessage" style="color: red;">{{errorMessage}}</div>
+
           <v-btn
             :loading="submitting"
             :disabled="!isFormValid"
@@ -53,7 +55,7 @@ export default {
     password: '',
     isFormValid: false,
     showPassword: false,
-    wrongCredentials: false,
+    errorMessage: false,
     submitting: false,
     usernameRules: [
       v => !!v || 'Username is required'
@@ -65,26 +67,25 @@ export default {
   }),
   methods: {
     onSubmit () {
-      this.$store.commit('setLoggedin', true);
-
       this.$refs.form.validate();
 
-      if (this.isFormValid) {
-        this.submitting = true;
-        axios.post('http://localhost:8080/auth/login', {
-          username: this.username,
-          password: this.password
-        }).then(({data}) => {
-          localStorage.setItem('jwt', data.token);
-          this.$router.push('search');
-          this.$store.commit('setLoggedin', true);
-        }).catch(err => {
-          console.error(err);
-          this.errorMessage = 'Invalid credentials';
-        }).finally(() => {
-          this.submitting = false;
-        });
-      }
+      this.$nextTick(() => {
+        if (this.isFormValid) {
+          this.submitting = true;
+          axios.post('http://localhost:8080/auth/login', {
+            username: this.username,
+            password: this.password
+          }).then(({data}) => {
+            localStorage.setItem('jwt', data.token);
+            this.$router.push('search');
+            this.$store.commit('setLoggedin', true);
+          }).catch(() => {
+            this.errorMessage = 'Invalid credentials';
+          }).finally(() => {
+            this.submitting = false;
+          });
+        }
+      });
     }
   },
   mounted() {

@@ -28,6 +28,8 @@
             @click:append="showPassword = !showPassword"
           ></v-text-field>
 
+          <div v-if="errorMessage" style="color: red;">{{errorMessage}}</div>
+
           <v-btn
             :disabled="!isFormValid"
             color="success"
@@ -52,7 +54,7 @@ export default {
     password: '',
     isFormValid: false,
     showPassword: false,
-    wrongCredentials: false,
+    errorMessage: '',
     usernameRules: [
       v => !!v || 'Username is required'
     ],
@@ -65,20 +67,20 @@ export default {
     onSubmit () {
       this.$refs.form.validate();
 
-      if (this.isFormValid) {
-        axios.post('http://localhost:8080/auth/signup', {
-          username: this.username,
-          password: this.password
-        }).then(res => {
-          console.log(res);
-          this.$router.push('Home');
-        }).catch(err => {
-          console.error(err);
-          this.errorMessage = 'Invalid credentials';
-        }).finally(() => {
-          this.submitting = false;
-        });
-      }
+      this.$nextTick(() => {
+        if (this.isFormValid) {
+          axios.post('http://localhost:8080/auth/signup', {
+            username: this.username,
+            password: this.password
+          }).then(() => {
+            this.$router.push('search');
+          }).catch(() => {
+            this.errorMessage = 'Invalid credentials';
+          }).finally(() => {
+            this.submitting = false;
+          });
+        }
+      });
     }
   }
 };
