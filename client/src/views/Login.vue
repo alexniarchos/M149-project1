@@ -76,7 +76,7 @@ export default {
           password: this.password
         }).then(({data}) => {
           localStorage.setItem('jwt', data.token);
-          this.$router.push('/');
+          this.$router.push('search');
           this.$store.commit('setLoggedin', true);
         }).catch(err => {
           console.error(err);

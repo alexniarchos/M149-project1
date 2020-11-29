@@ -1,47 +1,89 @@
+const eventFields = [
+  'status',
+  'completionDate',
+  'serviceRequestNumber',
+  'type',
+  'address',
+  'zipCode',
+  'customCoordinateX',
+  'customCoordinateY',
+  'ward',
+  'policeDistrict',
+  'communityArea',
+  'latitude',
+  'longitude'
+];
+
+const generalInfoFields = [
+  'historicalWards',
+  'zipCodes',
+  'communityAreas',
+  'cencusTracts',
+  'wards'
+];
+
+const activityFields = [
+  'currentActivity',
+  'mostRecentAction'
+];
+
+const ssaFields = ['ssa'];
+
 const eventTypes = [
   {
     value: 'ABANDONED_VEHICLES',
-    text: 'Abandoned vehicles'
+    text: 'Abandoned vehicles',
+    requiredFields: [...eventFields, ...ssaFields, ...activityFields, 'licencePlate', 'model', 'color', 'daysStationed']
   },
   {
     value: 'ALLEY_LIGHT_OUT',
-    text: 'Alley light out'
+    text: 'Alley light out',
+    requiredFields: [...eventFields, ...generalInfoFields]
   },
   {
     value: 'GARBAGE_CART',
-    text: 'Garbage cart'
+    text: 'Garbage cart',
+    requiredFields: [...eventFields, ...ssaFields, ...generalInfoFields, ...activityFields, 'numberDelivered']
   },
   {
     value: 'GRAFFITI_REMOVAL',
-    text: 'Graffiti removal'
+    text: 'Graffiti removal',
+    requiredFields: [...eventFields, ...ssaFields, ...generalInfoFields, 'typeOfSurface', 'graffitiLocation']
   },
   {
     value: 'POTHOLE_IN_STREET',
-    text: 'Pothole in street'
+    text: 'Pothole in street',
+    requiredFields: [...eventFields, ...ssaFields, ...generalInfoFields, ...activityFields, 'numberFilled']
   },
   {
     value: 'RODENT_BAITING',
-    text: 'Rodent baiting'
+    text: 'Rodent baiting',
+    requiredFields: [...eventFields, ...generalInfoFields, ...activityFields, 'numberOfPremisesBaited', 'numberOfPremisesWithGarbage', 'numberOfPremisesWithRats']
   },
   {
     value: 'SANITATION_VIOLATION',
-    text: 'Sanitation violation'
+    text: 'Sanitation violation',
+    requiredFields: [...eventFields, ...generalInfoFields, 'typeOfViolation']
   },
   {
     value: 'STREET_LIGHTS_ALL_OUT',
-    text: 'Street lights all out'
+    text: 'Street lights all out',
+    requiredFields: [...eventFields, ...generalInfoFields]
   },
   {
     value: 'STREET_LIGHT_OUT',
-    text: 'Street light out'
+    text: 'Street light out',
+    requiredFields: [...eventFields]
   },
   {
     value: 'TREE_DEBRIS',
-    text: 'Tree debris'
+    text: 'Tree debris',
+    requiredFields: [...eventFields, ...generalInfoFields, ...activityFields, 'treeLocation']
   },
   {
     value: 'TREE_TRIM',
-    text: 'Tree trim'
+    text: 'Tree trim',
+    requiredFields: [...eventFields, ...generalInfoFields, 'treeLocation']
   }
 ];
 
@@ -83,7 +125,6 @@ const fieldTypes = {
   status: 'EventStatus',
   completionDate: 'Date',
   serviceRequestNumber: 'String',
-  type: 'EventType',
   address: 'String',
   zipCode: 'Number',
   customCoordinateX: 'Number',
@@ -120,7 +161,6 @@ const fieldTypesOrdered = [
   'status',
   'completionDate',
   'serviceRequestNumber',
-  'type',
   'address',
   'zipCode',
   'customCoordinateX',

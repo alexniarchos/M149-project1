@@ -10,25 +10,19 @@
             Fill the following details to submit a new incident
           </v-card-subtitle>
           <v-card-text>
+            <v-select
+              v-model="fields['type']"
+              :items="eventTypes"
+              label="Select event type"
+              outlined
+            />
             <v-row>
-              <v-col
-                v-for="(fieldType, index) in fieldTypesOrdered"
-                :key="index"
-                cols="6"
-              >
+              <v-col v-for="(fieldType, index) in filteredFieldTypes" :key="index" cols="6">
                 <v-select
                   v-if="fieldTypes[fieldType] === fieldTypes.status"
                   v-model="fields[fieldType]"
                   :items="eventStatusTypes"
                   label="Select event status"
-                  outlined
-                />
-
-                <v-select
-                  v-if="fieldTypes[fieldType] === fieldTypes.type"
-                  v-model="fields[fieldType]"
-                  :items="eventTypes"
-                  label="Select event type"
                   outlined
                 />
 
@@ -83,11 +77,7 @@
             </v-row>
           </v-card-text>
           <v-card-actions>
-            <v-btn
-              color="success"
-              @click="onInsertSubmit()"
-              :loading="submitting"
-            >
+            <v-btn color="success" @click="onInsertSubmit()" :loading="submitting">
               Submit
             </v-btn>
           </v-card-actions>
@@ -99,7 +89,13 @@
 
 <script>
 import axios from 'axios';
-import {eventTypes, eventStatusTypes, treeLocationTypes, fieldTypes, fieldTypesOrdered} from '../constants';
+import {
+  eventTypes,
+  eventStatusTypes,
+  treeLocationTypes,
+  fieldTypes,
+  fieldTypesOrdered
+} from '../constants';
 
 export default {
   name: 'Insert',
@@ -109,35 +105,41 @@ export default {
     eventStatusTypes,
     treeLocationTypes,
     fieldTypes,
-    fieldTypesOrdered,
     submitting: false,
     showCalendar: false
   }),
   computed: {
+    filteredFieldTypes() {
+      if (!this.fields.type) {
+        return;
+      }
+      const {requiredFields} = this.eventTypes.find(e => e.value.includes(this.fields.type));
 
+      return fieldTypesOrdered.reduce(
+        (acc, cur) => requiredFields.includes(cur) ? [...acc, cur] : acc,
+        []
+      );
+    }
   },
   methods: {
     onInsertSubmit() {
       this.submitting = true;
 
       // format date to ISO string
-      const completionDate = this.fields.completionDate && new Date(this.fields.completionDate).toISOString();
-      
+      const completionDate =
+        this.fields.completionDate && new Date(this.fields.completionDate).toISOString();
+
       const fields = {
         ...this.fields,
         completionDate
       };
 
       axios
-        .post(
-          'http://localhost:8080/insert',
-          fields,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('jwt')}`
-            }
+        .post('http://localhost:8080/insert', fields, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`
           }
-        )
+        })
         .then(({data}) => {
           console.log(data);
         })

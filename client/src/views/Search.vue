@@ -170,7 +170,12 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-        <v-data-table :headers="headers" :items="items" :items-per-page="10" class="elevation-1" />
+        <v-data-table v-if="items && items.length"
+          :headers="headers"
+          :items="items" 
+          :items-per-page="10" 
+          class="elevation-1" 
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -229,6 +234,11 @@ export default {
   methods: {
     onQuerySubmit() {
       this.submitting = true;
+      
+      // clear results table
+      this.headers = [];
+      this.items = [];
+      
       const {requiredFields} = this.selectedQuery;
       let params = {};
 
@@ -272,10 +282,14 @@ export default {
         )
         .then(({data}) => {
           console.log(data);
-          if (!data || !data.length) {
+          if (!data || (!data.length && !typeof data === 'object')) {
             return;
           }
-          
+
+          if(typeof data === 'object' && !data.length) {
+            data = [data];
+          }
+
           this.headers = Object.keys(data[0]).reduce(
             (acc, cur) => [...acc, {text: this.formatTableField(cur), value: cur}],
             []
