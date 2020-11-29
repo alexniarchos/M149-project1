@@ -186,23 +186,11 @@ import axios from 'axios';
 import {queries} from '../assets/queries.json';
 import {eventTypes} from '../constants';
 
-const fieldNames = {
-  minRange: 'Start date',
-  maxRange: 'End date',
-  day: 'Date',
-  minLatitude: 'Minimum latitude',
-  minLongitude: 'Minimum longitude',
-  maxLatitude: 'Maximum latitude',
-  maxLongitude: 'Maximum longitude',
-  numberOfPremises: 'Number of premises'
-};
-
 export default {
   name: 'Search',
   data: () => ({
     queries,
     eventTypes,
-    fieldNames,
     selectedQueryName: '',
     submitting: false,
     showCalendarMinRange: false,
@@ -218,7 +206,7 @@ export default {
     numberOfPremises: 0,
     type: '',
     street: '',
-    zipCode: null,
+    zipCode: 0,
     headers: [],
     items: []
   }),
@@ -281,8 +269,7 @@ export default {
           }
         )
         .then(({data}) => {
-          console.log(data);
-          if (!data || (!data.length && !typeof data === 'object')) {
+          if (!data || (!data.length && !typeof data === 'object') || (Array.isArray(data) && data.length === 0)) {
             return;
           }
 
@@ -297,7 +284,11 @@ export default {
           this.items = Object.values(data);
         })
         .catch(err => {
-          console.error(err);
+          if (err.response && err.response.status === 401) {
+            localStorage.removeItem('jwt');
+            this.$store.commit('setLoggedin', false);
+            this.$router.push('login');
+          }
         })
         .finally(() => {
           this.submitting = false;
@@ -309,7 +300,32 @@ export default {
     }
   },
   mounted() {
-    // this.$router.push('Login');
+    if (!localStorage.getItem('jwt')) {
+      this.$router.push('login');
+    }
+  },
+  watch: {
+    selectedQuery: function() {
+      // clear results table
+      this.headers = [];
+      this.items = [];
+
+      // reset input fields
+      this.showCalendarMinRange = false;
+      this.showCalendarMaxRange = false;
+      this.showCalendarDay = false;
+      this.minRange = '';
+      this.maxRange = '';
+      this.day = '';
+      this.minLatitude = 0;
+      this.minLongitude = 0;
+      this.maxLatitude = 0;
+      this.maxLongitude = 0;
+      this.numberOfPremises = 0;
+      this.type = '';
+      this.street = '';
+      this.zipCode = 0;
+    }
   }
 };
 </script>
