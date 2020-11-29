@@ -4,8 +4,14 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    isLoggedin: false
+  },
+  mutations: {
+    setLoggedin(state, value) {
+      state.isLoggedin = value;
+    }
+  },
   actions: {},
   modules: {}
 });

@@ -1,0 +1,86 @@
+{
+  "queries": [
+    {
+      "id": "TOTAL_REQUESTS_SPECIFIED_RANGE",
+      "name": "Query 1",
+      "desc": "Find the total requests per type that were created within a specified time range and sort them in a descending order.",
+      "requiredFields": ["minRange", "maxRange"]
+    },
+    {
+      "id": "TOTAL_REQUESTS_PER_DAY_AND_TIME_RANGE",
+      "name": "Query 2",
+      "desc": "Find the total requests per day for a specific request type and time range.",
+      "requiredFields": ["type", "minRange", "maxRange"]
+    },
+    {
+      "id": "MOST_COMMON_SERVICE_REQUEST_PER_TYPE_AND_TIME_RANGE",
+      "name": "Query 3",
+      "desc": "Find the most common service request per zipcode for a specific day",
+      "requiredFields": ["day"]
+    },
+    {
+      "id": "AVERAGE_COMPLETION_TIME_PER_SERVICE_REQUEST_AND_TIME_RANGE",
+      "name": "Query 4",
+      "desc": "Find the average completion time per service request for a specific date range.",
+      "requiredFields": ["minRange", "maxRange"]
+    },
+    {
+      "id": "MOST_COMMON_REQUEST_IN_SPECIFIED_GPS_COORDINATES",
+      "name": "Query 5",
+      "desc": "Find the most common service request in a specified bounding box (as designated by GPS coordinates) for a specific day",
+      "requiredFields": ["minLatitude", "minLongitude", "maxLatitude", "maxLongitude", "day"]
+    },
+    {
+      "id": "TOP_FIVE_SSA_PER_DAY_FOR_SPECIFIED_TIME_RANGE",
+      "name": "Query 6",
+      "desc": "Find the top-5 Special Service Areas (SSA) with regards to total number of requests per day for a specific date range (for service requests types that SSA is available: abandoned vehicles, garbage carts, graffiti removal, pot holes reported)",
+      "requiredFields": ["minRange", "maxRange"]
+    },
+    {
+      "id": "LICENCE_PLATES_ABANDONED_MORE_THAN_ONCE",
+      "name": "Query 7",
+      "desc": " Find the license plates (if any) that have been involved in abandoned vehicle complaints more than once."
+    },
+    {
+      "id": "SECOND_MOST_COMMON_COLOR_ABANDONED_VEHICLES",
+      "name": "Query 8",
+      "desc": "Find the second most common color of vehicles involved in abandoned vehicle complaints."
+    },
+    {
+      "id": "NUMBER_OF_PREMISES_BAITED_LESS_THAN",
+      "name": "Query 9",
+      "desc": "Find the rodent baiting requests where the number of premises baited is less than a specified number.",
+      "requiredFields": ["numberOfPremises"]
+    },
+    {
+      "id": "NUMBER_OF_PREMISES_WITH_GARBAGE_LESS_THAN",
+      "name": "Query 10",
+      "desc": "Same as the above (i.e., 9) for premises with garbage.",
+      "requiredFields": ["numberOfPremises"]
+    },
+    {
+      "id": "NUMBER_OF_PREMISES_WITH_RATS_LESS_THAN",
+      "name": "Query 11",
+      "desc": "Same as the above (i.e., 10) for premises with rats.",
+      "requiredFields": ["numberOfPremises"]
+    },
+    {
+      "id": "POLICE_DISTRICTS_HANDLED_MORE_THAN_ONE_POT_HOLES_AND_RODENT_BAITING",
+      "name": "Query 12",
+      "desc": "Find the police districts that have handled “pot holes” requests with more than one number of potholes on the same day that they also handled “rodent baiting” requests with more than one number of premises baited, for a specific day",
+      "requiredFields": ["day"]
+    },
+    {
+      "id": "EVENTS_IN_SPECIFIED_STREET",
+      "name": "Street",
+      "desc": "",
+      "requiredFields": ["street"]
+    },
+    {
+      "id": "EVENTS_IN_SPECIFIED_ZIP_CODE",
+      "name": "Zipcode",
+      "desc": "",
+      "requiredFields": ["zipCode"]
+    }
+  ]
+}

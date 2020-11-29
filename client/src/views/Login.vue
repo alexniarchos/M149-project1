@@ -65,16 +65,19 @@ export default {
   }),
   methods: {
     onSubmit () {
+      this.$store.commit('setLoggedin', true);
+
       this.$refs.form.validate();
 
       if (this.isFormValid) {
         this.submitting = true;
-        axios.post('/login', {
+        axios.post('http://localhost:8080/auth/login', {
           username: this.username,
           password: this.password
-        }).then(res => {
-          console.log(res);
-          this.$router.push('Home');
+        }).then(({data}) => {
+          localStorage.setItem('jwt', data.token);
+          this.$router.push('/');
+          this.$store.commit('setLoggedin', true);
         }).catch(err => {
           console.error(err);
           this.errorMessage = 'Invalid credentials';
@@ -82,6 +85,11 @@ export default {
           this.submitting = false;
         });
       }
+    }
+  },
+  mounted() {
+    if (localStorage.getItem('jwt')) {
+      this.$router.push('search');
     }
   }
 };
