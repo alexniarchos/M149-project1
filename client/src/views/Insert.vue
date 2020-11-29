@@ -1,5 +1,12 @@
 <template>
   <v-container>
+    <v-snackbar
+      v-model="snackbar"
+      top
+      :color="snackbarColor"
+    >
+      {{snackbarText}}
+    </v-snackbar>
     <v-row justify="center">
       <v-col cols="8">
         <v-card elevation="2" class="mb-6">
@@ -80,6 +87,10 @@
             <v-btn color="success" @click="onInsertSubmit()" :loading="submitting">
               Submit
             </v-btn>
+
+            <v-btn v-if="showClear" color="error" @click="onClear()">
+              Clear
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -106,7 +117,10 @@ export default {
     treeLocationTypes,
     fieldTypes,
     submitting: false,
-    showCalendar: false
+    showCalendar: false,
+    snackbar: false,
+    snackbarColor: '',
+    snackbarText: ''
   }),
   computed: {
     filteredFieldTypes() {
@@ -119,6 +133,12 @@ export default {
         (acc, cur) => requiredFields.includes(cur) ? [...acc, cur] : acc,
         []
       );
+    },
+    showClear() {
+      return !!this.fields.type;
+    },
+    selectedType() {
+      return this.fields.type;
     }
   },
   methods: {
@@ -129,8 +149,11 @@ export default {
       const completionDate =
         this.fields.completionDate && new Date(this.fields.completionDate).toISOString();
 
+      const stringFields = Object.keys(this.fields).reduce((acc, cur) => ({...acc, [cur]: this.fields[cur].length === 0 ? null : this.fields[cur]}), {});
+
       const fields = {
         ...this.fields,
+        ...stringFields,
         completionDate
       };
 
@@ -140,23 +163,43 @@ export default {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
           }
         })
-        .then(({data}) => {
-          console.log(data);
+        .then(() => {
+          this.snackbarColor = 'success';
+          this.snackbarText = 'Inserted incident successfully';
+          this.snackbar = true;
         })
         .catch(err => {
+          this.snackbarColor = 'error';
+          this.snackbarText = 'Oops something went wrong';
+          this.snackbar = true;
+
           if (err.response && err.response.status === 401) {
             localStorage.removeItem('jwt');
             this.$store.commit('setLoggedin', false);
-            this.$router.push('Login');
+            this.$router.push('login');
           }
         })
         .finally(() => {
           this.submitting = false;
         });
+    },
+    onClear() {
+      this.fields = {};
     }
   },
   mounted() {
-    // this.$router.push('Login');
+    if (!localStorage.getItem('jwt')) {
+      this.$router.push('login');
+    }
+  },
+  watch: {
+    selectedType: function() {
+      const {type} = this.fields;
+
+      this.fields = {
+        type
+      };
+    }
   }
 };
 </script>
