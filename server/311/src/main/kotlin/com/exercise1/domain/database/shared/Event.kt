@@ -11,11 +11,12 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.SequenceGenerator
 import javax.persistence.Table
 
 @Entity
-@Table(name = "event")
+@Table(name = "event", indexes = [Index(name = "zip_code_index", columnList = "zip_code")])
 @SequenceGenerator(name = "event_seq", sequenceName = "event_seq", allocationSize = 1)
 data class Event(
 

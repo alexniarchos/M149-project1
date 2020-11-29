@@ -15,7 +15,7 @@ import javax.persistence.Table
 data class GeneralInfo(
 
   @Id
-  @Column(name = "general_info_id")
+  @Column(name = "event_id")
   val id: Long,
 
   @Column(name = "historical_wards")

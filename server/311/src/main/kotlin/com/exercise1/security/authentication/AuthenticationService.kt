@@ -1,10 +1,8 @@
 package com.exercise1.security.authentication
 
 import com.exercise1.security.JwtProvider
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
@@ -16,9 +14,9 @@ class AuthenticationService(
   private val userRepository: UserRepository
 ) {
 
-  fun authenticateUserGetJWT(user: UserDto): String{
+  fun authenticateUserGetJWT(user: UserDto): String {
     val authentication = authenticationManager.authenticate(
-        UsernamePasswordAuthenticationToken(user.username, user.password)
+      UsernamePasswordAuthenticationToken(user.username, user.password)
     )
 
     SecurityContextHolder.getContext().authentication = authentication
